@@ -7,14 +7,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import java.sql.Array
 
 
 class NewsListAdapter(private val listner: NewsClicked) : RecyclerView.Adapter<NewsViewHolder>() {
     private val items: ArrayList<NewsClass> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.news_row, parent, false)
-        return NewsViewHolder(view)
+        val viewHolder = NewsViewHolder(view)
+        view.setOnClickListener{
+            listner.onClicked(items[viewHolder.adapterPosition])
+        }
+        return viewHolder
     }
 
     override fun getItemCount(): Int {
@@ -44,5 +47,5 @@ class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 }
 
 interface NewsClicked{
-    fun OnClicked(item: NewsClass)
+    fun onClicked(item: NewsClass)
 }

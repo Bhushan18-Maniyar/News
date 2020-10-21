@@ -1,5 +1,6 @@
 package com.example.dell.news
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -9,6 +10,8 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import kotlinx.android.synthetic.main.activity_main.*
+import androidx.browser.customtabs.CustomTabsIntent
+
 
 class MainActivity : AppCompatActivity(), NewsClicked {
     private lateinit var adapter: NewsListAdapter
@@ -22,15 +25,15 @@ class MainActivity : AppCompatActivity(), NewsClicked {
         adapter = NewsListAdapter(this)
         recyclerView.adapter = adapter
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-
-                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-
-                }
-            }
-        })
+//        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//
+//                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+//
+//                }
+//            }
+//        })
     }
 
     private fun fetchData() {
@@ -60,8 +63,12 @@ class MainActivity : AppCompatActivity(), NewsClicked {
 
     }
 
-    override fun OnClicked(item: NewsClass) {
-        Toast.makeText(this, "Clicked", Toast.LENGTH_LONG).show()
+    override fun onClicked(item: NewsClass) {
+        Toast.makeText(this,"Hello",Toast.LENGTH_SHORT).show()
+        val url = item.url
+        val builder = CustomTabsIntent.Builder()
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(this, Uri.parse(url))
     }
 }
 
